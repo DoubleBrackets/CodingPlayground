@@ -50,6 +50,6 @@ jobs:
 
       - name: Push Build to Butler
         run: |
-          ./butler push $ZIP_NAME ${{env.ITCH_GAME_NAME}}:HTML --userversion ${{steps.semantic_version.outputs.version}} --if-changed
+          ./butler push $ZIP_NAME ${{env.ITCH_GAME_NAME}}:HTML --userversion ${{steps.semantic_version.outputs.version}}
         env:
           BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
