@@ -34,12 +34,16 @@ jobs:
         run: |
           pwd
           ls
+
+      - name: Zip Name
+        run: |
+          export ZIP_NAME=Playground-v${{steps.semantic_version.outputs.version}}
         
       # Zip before uploading to itch isn't required, but lower upload size
       - name: Zip Build
         uses: montudor/action-zip@v1
         with:
-          args: zip -qq -r Playground.zip .
+          args: zip -qq -r $ZIP_NAME .
 
       - name: Download Butler
         run: |
@@ -51,6 +55,6 @@ jobs:
 
       - name: Push Build to Butler
         run: |
-          ./butler push Playground.zip ${{env.ITCH_GAME_NAME}}:HTML --userversion ${{steps.semantic_version.outputs.version}} --if-changed
+          ./butler push $ZIP_NAME ${{env.ITCH_GAME_NAME}}:HTML --userversion ${{steps.semantic_version.outputs.version}} --if-changed
         env:
           BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
