@@ -1,10 +1,8 @@
 name: HTML-Itch-Uploader
-run-name: ${{ github.actor }} is building ${{ github.ref_name }}
 
 env:
   BUTLER_LINK: https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default
   ITCH_GAME_NAME: doublebrackets/playground
-
 
 on:
   push:
