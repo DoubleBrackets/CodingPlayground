@@ -32,7 +32,8 @@ jobs:
 
       - name: Paths
         run: |
-          echo "ZIP_NAME=Playground-v${{steps.semantic_version.outputs.version}}.zip" >> $GITHUB_ENV
+          echo "ZIP_NAME=Playground.zip" >> $GITHUB_ENV
+          echo "DISPLAY_VERSION=v${{steps.semantic_version.outputs.version}}" >> $GITHUB_ENV
         
       # Zip before uploading to itch isn't required, but lower upload size
       - name: Zip Build
@@ -50,6 +51,6 @@ jobs:
 
       - name: Push Build to Butler
         run: |
-          ./butler push $ZIP_NAME ${{env.ITCH_GAME_NAME}}:HTML --userversion ${{steps.semantic_version.outputs.version}}
+          ./butler push $ZIP_NAME ${{env.ITCH_GAME_NAME}}:HTML-$DISPLAY_VERSION --userversion ${{steps.semantic_version.outputs.version}}
         env:
           BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
