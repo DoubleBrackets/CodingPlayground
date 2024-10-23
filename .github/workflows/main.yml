@@ -1,4 +1,4 @@
-name: Unity-Builder
+name: HTML-Itch-Uploader
 run-name: ${{ github.actor }} is building ${{ github.ref_name }}
 
 env:
