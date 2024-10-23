@@ -19,7 +19,7 @@ function createFlower() {
 }
 
 function drawFlower(flower) {
-  noStroke();
+  noStroke(); 
   fill(flower.color);
 
   // Draw petals.
@@ -56,9 +56,13 @@ function draw() {
     // Reduce lifespan.
     flower.lifespan -= 1; 
   }
+
+  if(mouseIsPressed) {
+    mouse();
+  }
 }
 
-function mousePressed() {
+function mouse() {
   let flower = createFlower();
 
   // reassign x to be mouseX
