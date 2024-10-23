@@ -1,0 +1,56 @@
+name: Unity-Builder
+run-name: ${{ github.actor }} is building ${{ github.ref_name }}
+
+env:
+  BUTLER_LINK: https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default
+  ITCH_GAME_NAME: doublebrackets/playground
+
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  PublishHTMLToItch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Git Semantic Version
+        uses: paulhatch/semantic-version@v5.4.0
+        id: semantic_version
+        with:
+          # Named version, will be used as suffix for name version tag
+          namespace: ${{ env.PROJ_NAME }}
+          # If enabled, diagnostic information will be added to the action output.
+          debug: true
+
+      - name: Debug
+        run: |
+          pwd
+          ls
+        
+      # Zip before uploading to itch isn't required, but lower upload size
+      - name: Zip Build
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r Playground.zip .
+
+      - name: Download Butler
+        run: |
+          curl -L -o butler.zip ${{env.BUTLER_LINK}}
+          unzip butler.zip
+          chmod +x butler
+          ./butler -V
+          tree -L 4
+
+      - name: Push Build to Butler
+        run: |
+          ./butler push Playground.zip ${{env.ITCH_GAME_NAME}}:HTML --userversion ${{steps.git_semantic_version.outputs.version}} --if-changed
+        env:
+          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
