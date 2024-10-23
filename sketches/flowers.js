@@ -34,7 +34,7 @@ function drawFlower(flower) {
 let flowers = [];
 
 function flowerPower() {
-  for(let i = 0; i < 20; i += 1) {
+  for(let i = 0; i < 40; i += 1) {
     // Create a flower in a random location.
     let flower = createFlower();
     // Add the flower to the flowers array.
