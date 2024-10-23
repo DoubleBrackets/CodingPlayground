@@ -31,10 +31,10 @@ jobs:
           debug: true
           # Small project, automatically bump version
           bump_each_commit: true
-          bump_each_commit_patch_pattern: "(PATCH)"
+          # bump_each_commit_patch_pattern: "(PATCH)"
 
       - name: Paths
-        run: |
+        run: | 
           echo "ZIP_NAME=Playground.zip" >> $GITHUB_ENV
           echo "DISPLAY_VERSION=v${{steps.semantic_version.outputs.version}}" >> $GITHUB_ENV
         
