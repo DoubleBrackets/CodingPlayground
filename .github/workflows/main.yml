@@ -32,7 +32,7 @@ jobs:
 
       - name: Paths
         run: |
-          echo "ZIP_NAME=Playground-v${{steps.semantic_version.outputs.version}}" >> $GITHUB_ENV
+          echo "ZIP_NAME=Playground-v${{steps.semantic_version.outputs.version}}.zip" >> $GITHUB_ENV
         
       # Zip before uploading to itch isn't required, but lower upload size
       - name: Zip Build
