@@ -29,6 +29,9 @@ jobs:
           namespace: ${{ env.PROJ_NAME }}
           # If enabled, diagnostic information will be added to the action output.
           debug: true
+          # Small project, automatically bump version
+          bump_each_commit: true
+          bump_each_commit_patch_pattern: "(PATCH)"
 
       - name: Paths
         run: |
