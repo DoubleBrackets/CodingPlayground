@@ -51,7 +51,7 @@ function draw() {
   background("lightblue");
   for (let flower of flowers) {
     drawFlower(flower);
-    flower.size *= 0.99;
+    flower.size *= 1.01;
 
     // Reduce lifespan.
     flower.lifespan -= 1; 
