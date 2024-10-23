@@ -58,11 +58,11 @@ function draw() {
   }
 
   if(mouseIsPressed) {
-    mouse();
+    spawn();
   }
 }
 
-function mouse() {
+function spawn() {
   let flower = createFlower();
 
   // reassign x to be mouseX
