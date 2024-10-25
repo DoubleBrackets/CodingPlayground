@@ -2,10 +2,10 @@
 
 function createVehicle() {
   return {
-    position : createVector(random(width), random(height)),
-    velocity : createVector(),
-    acceleration : 0.1,
-    maxSpeed : 5
+    position: createVector(random(width), random(height)),
+    velocity: createVector(),
+    acceleration: 0.1,
+    maxSpeed: 5
   }
 }
 
@@ -19,7 +19,7 @@ function createNumField(label, placeholder, callback) {
   let field = createInput(placeholder, 'number');
   field.position(0, fieldY);
   field.size(50);
-  
+
   let labelP = createSpan(label);
   labelP.position(55, fieldY);
 
@@ -86,32 +86,34 @@ function drawVehicle(vehicle) {
   pop();
 }
 
-function drawVectors(vehicle, desiredVel, steerVec)
-{
+function drawVectors(vehicle, desiredVel, steerVec) {
   strokeWeight(1);
   let scale = 10;
 
   let normalizedSteerVec = steerVec.copy();
-  normalizedSteerVec.normalize().mult(vehicle.acceleration) * 60;
+  normalizedSteerVec.normalize().mult(vehicle.acceleration * 60);
 
-  stroke(255,0,0);
+  stroke(255, 0, 0);
   line(
-    vehicle.position.x, 
-    vehicle.position.y, 
-    vehicle.position.x + vehicle.velocity.x * scale, 
+    vehicle.position.x,
+    vehicle.position.y,
+    vehicle.position.x + vehicle.velocity.x * scale,
     vehicle.position.y + vehicle.velocity.y * scale);
 
-  stroke(0,255,0);
-  line(vehicle.position.x, 
+  stroke(0, 255, 0);
+  line(vehicle.position.x,
     vehicle.position.y,
-    vehicle.position.x + desiredVel.x * scale, 
+    vehicle.position.x + desiredVel.x * scale,
     vehicle.position.y + desiredVel.y * scale);
 
-  stroke(0,0,255);
-  line(vehicle.position.x, 
-    vehicle.position.y,
-    vehicle.position.x + normalizedSteerVec.x * scale, 
-    vehicle.position.y + normalizedSteerVec.y * scale);
+  if (steerVec.mag() > 0.001) {
+    stroke(0, 0, 255);
+    line(vehicle.position.x,
+      vehicle.position.y,
+      vehicle.position.x + normalizedSteerVec.x * scale,
+      vehicle.position.y + normalizedSteerVec.y * scale);
+  }
+
 
   strokeWeight(0);
 }
