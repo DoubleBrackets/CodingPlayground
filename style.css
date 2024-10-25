@@ -1,8 +1,32 @@
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
 }
 
 canvas {
+  display: block;
+  padding: 0;
+  margin: auto;
+}
+
+iframe {
+  display: block;
+  padding: 0;
+  margin: auto;
+}
+
+.dropdown-menu li {
+  position: relative;
+}
+
+.dropdown-menu .dropdown-submenu {
+  display: none;
+  position: absolute;
+  left: 100%;
+  top: -7px;
+}
+
+.dropdown-menu>li:hover>.dropdown-submenu {
   display: block;
 }

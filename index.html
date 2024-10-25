@@ -8,11 +8,77 @@
 
     <link rel="stylesheet" type="text/css" href="style.css">
 
-    <script src="libraries/p5.min.js"></script>
-    <script src="libraries/p5.sound.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   </head>
 
   <body>
-    <script src="sketches/flowers.js"></script>
+    <iframe id="sketch-iframe" scrolling="no" title="sketch-iframe" frameBorder="0"></iframe>
+
+    <div id="sketch-list" class="dropdown">
+      <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+        Sketches
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu">
+        <li>
+          <a class="dropdown-item" href="#">Toys</a>
+          <ul class="dropdown-menu dropdown-submenu" >
+            <li><a href="#" data-sketch="toys/flowers">Flowers</a></li>
+          </ul>
+        </li>
+        <li>
+          <a class="dropdown-item" href="#">Shaders</a>
+          <ul class="dropdown-menu dropdown-submenu" >
+            <li><a href="#" data-sketch="shaders/basic">Basic</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <script type="text/javascript">
+      $("#sketch-list")[0].addEventListener("click",function(e) {
+          if(e.target && e.target.nodeName == "A") {
+            console.log(e.target.innerText + " was clicked");
+
+            var sketchName = e.target.getAttribute("data-sketch");
+            var iframe = $('iframe')[0];
+            
+            var splitPath = sketchName.split("/");
+            var scriptName = splitPath[splitPath.length - 1];
+
+            currentSketchPath = "sketches/" + sketchName + "/" + scriptName + ".html";
+
+            console.log("reloading iframe to: " + currentSketchPath);
+            // Reset the iframe
+            iframe.src = "about:blank";
+            iframe.src = currentSketchPath;
+          }
+      });
+    </script>
+
+    <script>
+      let currentSketchPath = null;
+
+      $(document).ready(function(){
+        $('iframe').on('load', function() {
+          var iframeDoc = $('iframe')[0].contentDocument;
+          console.log(iframeDoc);
+
+          // set margin to 0
+          $('iframe').contents().find('body').css('margin', '0');
+
+          // Resize
+          var width = iframeDoc.querySelector('meta[name="canvas-width"]').getAttribute("content");
+          var height = iframeDoc.querySelector('meta[name="canvas-height"]').getAttribute("content");
+
+          $('iframe').attr('width', width);
+          $('iframe').attr('height', height);
+        });
+      });
+    </script>
+
   </body>
 </html>
