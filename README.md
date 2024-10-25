@@ -1,2 +1,2 @@
-# CodingPlayground
-Web-based personal playground for small toys and snippets
+# SketchPlayground
+Playground for p5.js sketches and such
