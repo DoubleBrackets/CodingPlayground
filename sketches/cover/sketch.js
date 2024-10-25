@@ -6,7 +6,7 @@ let angle = 0;
 function setup() {
   light = color("#b8c2b9")
   dark = color("#382b26")
-  canvas = createCanvas(800, 800);
+  canvas = createCanvas(600, 600);
   stroke(dark);
 }
 function draw() {
@@ -23,7 +23,7 @@ function recurse(depth) {
     return;
   }
 
-  let len = 100 - depth;
+  let len = 75 - depth;
 
   let weight = startWeight - depth;
   strokeWeight(weight);

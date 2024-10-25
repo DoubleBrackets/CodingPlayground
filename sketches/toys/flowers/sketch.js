@@ -42,7 +42,7 @@ function drawFlower(flower) {
 let flowers = [];
 
 function setup() {
-  createCanvas(800, 800);
+  createCanvas(600, 600);
   mousePos = createVector(mouseX, mouseY);
 }
 

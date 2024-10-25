@@ -30,7 +30,7 @@ function createNumField(label, placeholder, callback) {
 }
 
 function setup() {
-  createCanvas(800, 800);
+  createCanvas(600, 600);
   vehicle = createVehicle();
 
   accelField = createNumField('acceleration', vehicle.acceleration, () => vehicle.acceleration = parseFloat(accelField.value()));

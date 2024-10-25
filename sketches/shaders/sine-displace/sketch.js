@@ -7,7 +7,7 @@ function preload() {
 }
 
 function setup() {
-    createCanvas(800, 800, WEBGL);
+    createCanvas(600, 600, WEBGL);
 }
 function draw() {
     clear();
@@ -21,5 +21,5 @@ function draw() {
     textFont(myFont);
     textSize(25);
     fill(0);
-    text(Math.trunc(millis() / 10) / 100, -395, -375);
+    text(Math.trunc(millis() / 10) / 100, -295, -275);
 }
