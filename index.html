@@ -18,6 +18,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <base target="_blank">
 </head>
 
 <body style="background-color: #b8c2b9;">
@@ -100,7 +101,7 @@
             console.log("fullPath: " + fullPath);
 
             var newListItem = $("<li></li>");
-            var newLink = $("<a  class='sketch-entry' href='#' data-sketch='" + fullPath + prevFileName + "'>" + prevDisplayName + "</a>");
+            var newLink = $("<a  class='sketch-entry' target='_self' href='#' data-sketch='" + fullPath + prevFileName + "'>" + prevDisplayName + "</a>");
             newListItem.append(newLink);
             currentDropdown.append(newListItem);
 
