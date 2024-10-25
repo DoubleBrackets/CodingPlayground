@@ -3,5 +3,6 @@ behavior|Behavior
  steering|Steering
 shaders|Shaders
  sine-displace|Sine Displace
-toys|Toys
+effects|Effects
  flowers|Flowers
+ dots|Dots
