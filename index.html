@@ -29,24 +29,100 @@
         Sketches
         <span class="caret"></span>
       </button>
-      <ul class="dropdown-menu">
-        <li>
-          <a class="dropdown-item" href="#">Toys</a>
-          <ul class="dropdown-menu dropdown-submenu">
-            <li><a href="#" data-sketch="toys/flowers">Flowers</a></li>
-          </ul>
-        </li>
-        <li>
-          <a class="dropdown-item" href="#">Shaders</a>
-          <ul class="dropdown-menu dropdown-submenu">
-            <li><a href="#" data-sketch="shaders/basic">Basic</a></li>
-          </ul>
-        </li>
-      </ul>
+      <ul class="dropdown-menu"></ul>
     </div>
   </div>
 
   <div id="markdown-div"></div>
+
+  <script>
+    $(function () {
+      // geneate list elements from .txt
+      var mdPath = "sketch-list.txt";
+
+      $.get(mdPath, function (data) {
+        var lines = data.split("\n");
+        // dummy line to make sure the last entry is added
+        lines.push("_|_");
+
+        var sketchList = $("#sketch-list");
+        var dropdown = sketchList.find(".dropdown-menu");
+
+        var dropdownStack = [dropdown];
+        var pathStack = [];
+
+        var prevFileName = null;
+        var prevDisplayName = null;
+        var prevDepth = 0;
+
+        for (var i = 0; i < lines.length; i++) {
+          var line = lines[i];
+          var trimmed = line.trimStart();
+          var split = trimmed.split("|");
+
+          var fileName = split[0];
+          var displayName = split[1];
+
+          var thisLineDepth = line.length - trimmed.length + 1;
+          var currentDropdown = dropdownStack[dropdownStack.length - 1];
+
+          console.log("----------");
+          console.log("line: " + line);
+          console.log("this line depth: " + thisLineDepth + " prevDepth: " + prevDepth);
+
+          if (thisLineDepth > prevDepth && i != 0) {
+            // previous line was a dropdown if this line is more indented
+
+            console.log("creating new dropdown");
+            var newDropdown = $("<ul class='dropdown-menu dropdown-submenu'></ul>");
+            var newListItem = $("<li></li>");
+            var newLink = $("<a  class='dropdown-item'>" + prevDisplayName + "›</a>");
+            newListItem.append(newLink);
+            newListItem.append(newDropdown);
+
+            currentDropdown.append(newListItem);
+
+            dropdownStack.push(newDropdown);
+
+            console.log("pushing " + prevFileName);
+            pathStack.push(prevFileName);
+
+          } else if (thisLineDepth <= prevDepth && i != 0) {
+            // previous line was an entry if this line is less indented
+            var fullPath = '';
+
+            console.log("creating new entry");
+            for (var j = 0; j < prevDepth - 1; j++) {
+              fullPath += pathStack[j] + '/';
+            }
+
+            console.log("fullPath: " + fullPath);
+
+            var newListItem = $("<li></li>");
+            var newLink = $("<a  class='sketch-entry' href='#' data-sketch='" + fullPath + prevFileName + "'>" + prevDisplayName + "</a>");
+            newListItem.append(newLink);
+            currentDropdown.append(newListItem);
+
+            var diff = prevDepth - thisLineDepth;
+            for (var j = 0; j < diff; j++) {
+              dropdownStack.pop();
+              console.log("popping " + pathStack[pathStack.length - 1]);
+              pathStack.pop();
+            }
+          }
+
+          prevDepth = thisLineDepth;
+          prevFileName = fileName;
+          prevDisplayName = displayName;
+        }
+
+        // set the first sketch as the default
+        var firstListItem = $("#sketch-list").find(".sketch-entry")[0];
+        firstListItem.click();
+      });
+
+    });
+  </script>
 
   <script type="text/javascript">
     $("#sketch-list")[0].addEventListener("click", function (e) {
@@ -54,6 +130,11 @@
         console.log(e.target.innerText + " was clicked");
 
         var sketchDirPath = e.target.getAttribute("data-sketch");
+
+        if (sketchDirPath == null) {
+          return;
+        }
+
         loadSketch(sketchDirPath);
       }
     });
@@ -73,19 +154,13 @@
       iframe.src = currentSketchPath;
 
       // Load markdown notes
-      var mdPath = fullDirPath + scriptName + ".md";
+      var mdPath = fullDirPath + "note.md";
 
       $.get(mdPath, function (data) {
         var html = marked.parse(data);
         $("#markdown-div").html(html);
       });
     }
-  </script>
-
-  <script>
-    $(function () {
-      loadSketch('toys/flowers');
-    });
   </script>
 
   <script>
