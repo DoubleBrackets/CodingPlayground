@@ -39,7 +39,7 @@
         <li>
           <a class="dropdown-item" href="#">Shaders</a>
           <ul class="dropdown-menu dropdown-submenu">
-            <li><a href="#" data-sketch="shaders/basic">Basic</a></li>
+            <li><a href="#" data-sketch="shaders/sine-displace">Sine Displace</a></li>
           </ul>
         </li>
       </ul>
@@ -73,7 +73,7 @@
       iframe.src = currentSketchPath;
 
       // Load markdown notes
-      var mdPath = fullDirPath + scriptName + ".md";
+      var mdPath = fullDirPath + "note.md";
 
       $.get(mdPath, function (data) {
         var html = marked.parse(data);
@@ -84,7 +84,7 @@
 
   <script>
     $(function () {
-      loadSketch('toys/flowers');
+      loadSketch('behavior/steering');
     });
   </script>
 
