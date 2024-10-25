@@ -1,22 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Sketch</title>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" type="text/css" href="style.css">
+  <title>Sketch</title>
+
+  <link rel="stylesheet" type="text/css" href="style.css">
 
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  </head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-  <body>
-    <iframe id="sketch-iframe" scrolling="no" title="sketch-iframe" frameBorder="0"></iframe>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+</head>
 
+<body style="background-color: #b8c2b9;">
+  <iframe id="sketch-iframe" scrolling="no" title="sketch-iframe"></iframe>
+
+  <div id="divider">
     <div id="sketch-list" class="dropdown">
       <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
         Sketches
@@ -25,60 +32,88 @@
       <ul class="dropdown-menu">
         <li>
           <a class="dropdown-item" href="#">Toys</a>
-          <ul class="dropdown-menu dropdown-submenu" >
+          <ul class="dropdown-menu dropdown-submenu">
             <li><a href="#" data-sketch="toys/flowers">Flowers</a></li>
           </ul>
         </li>
         <li>
           <a class="dropdown-item" href="#">Shaders</a>
-          <ul class="dropdown-menu dropdown-submenu" >
+          <ul class="dropdown-menu dropdown-submenu">
             <li><a href="#" data-sketch="shaders/basic">Basic</a></li>
           </ul>
         </li>
       </ul>
     </div>
+  </div>
 
-    <script type="text/javascript">
-      $("#sketch-list")[0].addEventListener("click",function(e) {
-          if(e.target && e.target.nodeName == "A") {
-            console.log(e.target.innerText + " was clicked");
+  <div id="markdown-div"></div>
 
-            var sketchName = e.target.getAttribute("data-sketch");
-            var iframe = $('iframe')[0];
-            
-            var splitPath = sketchName.split("/");
-            var scriptName = splitPath[splitPath.length - 1];
+  <script type="text/javascript">
+    $("#sketch-list")[0].addEventListener("click", function (e) {
+      if (e.target && e.target.nodeName == "A") {
+        console.log(e.target.innerText + " was clicked");
 
-            currentSketchPath = "sketches/" + sketchName + "/" + scriptName + ".html";
+        var sketchDirPath = e.target.getAttribute("data-sketch");
+        loadSketch(sketchDirPath);
+      }
+    });
 
-            console.log("reloading iframe to: " + currentSketchPath);
-            // Reset the iframe
-            iframe.src = "about:blank";
-            iframe.src = currentSketchPath;
-          }
+    function loadSketch(sketchDirPath) {
+      var iframe = $('iframe')[0];
+      var splitPath = sketchDirPath.split("/");
+      var scriptName = splitPath[splitPath.length - 1];
+      var fullDirPath = "sketches/" + sketchDirPath + "/";
+
+      currentSketchPath = fullDirPath + scriptName + ".html";
+
+      console.log("reloading iframe to: " + currentSketchPath);
+
+      // Reset the iframe
+      iframe.src = "about:blank";
+      iframe.src = currentSketchPath;
+
+      // Load markdown notes
+      var mdPath = fullDirPath + scriptName + ".md";
+
+      $.get(mdPath, function (data) {
+        var html = marked.parse(data);
+        $("#markdown-div").html(html);
       });
-    </script>
+    }
+  </script>
 
-    <script>
-      let currentSketchPath = null;
+  <script>
+    $(function () {
+      loadSketch('toys/flowers');
+    });
+  </script>
 
-      $(document).ready(function(){
-        $('iframe').on('load', function() {
-          var iframeDoc = $('iframe')[0].contentDocument;
-          console.log(iframeDoc);
+  <script>
+    let currentSketchPath = null;
 
-          // set margin to 0
-          $('iframe').contents().find('body').css('margin', '0');
+    $(document).ready(function () {
+      $('iframe').on('load', function () {
+        var iframeDoc = $('iframe')[0].contentDocument;
+        console.log(iframeDoc);
 
-          // Resize
-          var width = iframeDoc.querySelector('meta[name="canvas-width"]').getAttribute("content");
-          var height = iframeDoc.querySelector('meta[name="canvas-height"]').getAttribute("content");
+        // set margin to 0
+        $('iframe').contents().find('body').css('margin', '0');
 
-          $('iframe').attr('width', width);
-          $('iframe').attr('height', height);
-        });
+        // Resize
+        var width = iframeDoc.querySelector('meta[name="canvas-width"]').getAttribute("content");
+        var height = iframeDoc.querySelector('meta[name="canvas-height"]').getAttribute("content");
+
+        var widthNum = parseInt(width);
+        var heightNum = parseInt(height);
+
+        var borderWidth = parseInt($('iframe').css('border-width'));
+
+        $('iframe').attr('width', widthNum + 2 * borderWidth);
+        $('iframe').attr('height', heightNum + 2 * borderWidth);
       });
-    </script>
+    });
+  </script>
 
-  </body>
+</body>
+
 </html>

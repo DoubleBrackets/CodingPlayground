@@ -2,18 +2,22 @@ html,
 body {
   margin: 0;
   padding: 0;
+  background-color: #b8c2b9;
 }
 
-canvas {
-  display: block;
-  padding: 0;
-  margin: auto;
+div {
+  background-color: #b8c2b9;
 }
 
 iframe {
   display: block;
   padding: 0;
-  margin: auto;
+  margin: 15px auto 15px auto;
+  background-color: #b8c2b9;
+  border-color: #382b26;
+  border-width: 15px;
+  border-style: solid;
+  border-radius: 3px;
 }
 
 .dropdown-menu li {
@@ -29,4 +33,28 @@ iframe {
 
 .dropdown-menu>li:hover>.dropdown-submenu {
   display: block;
+}
+
+#markdown-div {
+  font-family: "Roboto", serif;
+  padding: 10px;
+  margin: 10px;
+  color: #382b26;
+  background-color: #b8c2b9;
+  border-color: #382b26;
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 3px;
+}
+
+#sketch-list {
+  margin-left: 10px;
+  background-color: #382b26;
+}
+
+#divider {
+  padding: 10px 0px 10px 0px;
+  margin: 10px;
+  background-color: #382b26;
+  border-radius: 3px;
 }
