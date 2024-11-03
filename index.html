@@ -60,6 +60,11 @@
         for (var i = 0; i < lines.length; i++) {
           var line = lines[i];
           var trimmed = line.trimStart();
+
+          if (trimmed == "") {
+            continue;
+          }
+
           var split = trimmed.split("|");
 
           var fileName = split[0];

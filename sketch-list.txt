@@ -1,8 +1,17 @@
 cover|Cover
-behavior|Behavior
- steering|Steering
+
+nature-of-code|Nature Of Code (Tutorial Series)
+ nature-of-code-intro|Nature of Code (Intro)
+ randomness|0 Randomness
+  random-walk|Random Walk
+  random-distribution|Random distribution
+  paint-splatter|Paint Splatter
+ auto-agents|5 Autonomous Agents
+  steering|Steering
+
 shaders|Shaders
  sine-displace|Sine Displace
+
 effects|Effects
  flowers|Flowers
  dots|Dots
